@@ -1,0 +1,11 @@
+compile the code using maven
+mvn install
+
+then use the utility via comamndline: 
+java -jar target/bma-decoder-1.0-SNAPSHOT.jar <filename>
+or
+java -jar target/bma-decoder-1.0-SNAPSHOT.jar <retrieved hash>
+
+to extract the serial and token secret.
+
+
