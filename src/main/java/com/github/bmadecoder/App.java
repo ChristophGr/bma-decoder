@@ -20,11 +20,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 
 package com.github.bmadecoder;
 
 import java.io.File;
+import java.security.InvalidKeyException;
 import java.util.regex.Pattern;
 
 import javax.xml.transform.Transformer;
@@ -42,11 +43,10 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 
 public class App {
-
 	private static final String HASH_XPATH = "/map/string[@name='com.blizzard.bma.AUTH_STORE.HASH']";
 	private static final String MASK_KEY = "398e27fc50276a656065b0e525f4c06c04c61075286b8e7aeda59da9813b5dd6c80d2fb38068773fa59ba47c17ca6c6479015c1d5b8b8f6b9a";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InvalidKeyException {
 		if (args.length != 1) {
 			System.err.println("Usage: decode <hash or xml-file>");
 			return;
@@ -63,6 +63,8 @@ public class App {
 		String serial = unMask.substring(40);
 		System.out.println("Serial: " + serial);
 		System.out.println("Secret: " + secret);
+		Authenticator authenticator = new Authenticator(secret, true);
+		System.out.println(authenticator.calculateKey());
 	}
 
 	private static String getTokenStringFromFile(String filename) {
